@@ -139,7 +139,7 @@ export default function App() {
       )}
 
       <footer className="footer">
-        Yum Brands
+        Yum India
       </footer>
     </div>
   );
