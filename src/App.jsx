@@ -25,14 +25,20 @@ export default function App() {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,relative_humidity_2m,windspeed_10m&forecast_days=1&timezone=auto`;
       const res = await fetch(url);
       const json = await res.json();
-      const H = json.hourly;
-      const rows = H.time.map((t, i) => ({
-        time: new Date(t).getHours() + ":00",
-        temp: H.temperature_2m[i],
-        humidity: H.relative_humidity_2m[i],
-        wind: H.windspeed_10m[i],
-      }));
-      setWeather({ data: rows });
+     
+const { hourly } = json;
+
+
+const { time, temperature_2m, relative_humidity_2m, windspeed_10m } = hourly;
+
+
+const rows = time.map((t, i) => ({
+  time: new Date(t).getHours() + ":00",
+  temp: temperature_2m[i],
+  humidity: relative_humidity_2m[i],
+  wind: windspeed_10m[i],
+}));
+   setWeather({ data: rows });
     } catch (e) {
       console.error(e);
       setWeather(null);
@@ -40,6 +46,7 @@ export default function App() {
       setLoading(false);
     }
   }
+
 
   const KPIs = (() => {
     if (!weather?.data?.length) return {};
